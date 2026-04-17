@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r \"OTP\\\\|otp\\\\|totp\\\\|verification code\" /Users/sanjithagunuganti/Desktop/Velora-main --include=\"*.js\" --include=\"*.jsx\" ! -path \"*/node_modules/*\")",
+      "Bash(grep -h \"router\\\\.\" /Users/sanjithagunuganti/Desktop/Velora-main/routes/*.js)",
+      "Bash(npx vite:*)",
+      "Bash(ls:*)"
+    ]
+  }
+}
