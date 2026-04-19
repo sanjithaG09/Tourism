@@ -2,7 +2,7 @@ import VeloraLogo from "../components/VeloraLogo";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function ResetPassword() {
     setLoading(true);
     setErrors({});
     try {
-      const res  = await fetch(`${BASE_URL}/reset-password`, {
+      const res  = await fetch(`${API}/api/reset-password`, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({

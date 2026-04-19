@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 function formatDuration(seconds) {
@@ -269,7 +269,7 @@ export default function Distance() {
     setError("");
 
     try {
-      const res  = await fetch(`${BASE_URL}/distance`, {
+      const res  = await fetch(`${API}/api/distance`, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({ origin: o, destination: d }),

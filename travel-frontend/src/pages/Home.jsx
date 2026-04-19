@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const INDIA_CITIES = [
   "Agra","Ahmedabad","Ajmer","Allahabad","Amritsar","Andaman Islands","Auli",
@@ -815,7 +815,7 @@ export default function Home() {
       try { setUser(JSON.parse(stored)); } catch (e) { console.error(e); }
     }
     if (token) {
-      fetch(`${BASE_URL}/verify-token`, { headers: { Authorization: `Bearer ${token}` } })
+      fetch(`${API}/api/verify-token`, { headers: { Authorization: `Bearer ${token}` } })
         .then((res) => {
           if (!res.ok) {
             localStorage.removeItem("velora_user");

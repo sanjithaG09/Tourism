@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const StyleSheet = () => (
   <style>{`
@@ -802,7 +802,7 @@ export default function Trips() {
     setTripsLoading(true);
     try {
       const params = filterCity ? `?city=${encodeURIComponent(filterCity)}` : "";
-      const res = await fetch(`${BASE_URL}/trips${params}`, {
+      const res = await fetch(`${API}/api/trips${params}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("velora_token")}` },
       });
       const data = await res.json();
@@ -816,7 +816,7 @@ export default function Trips() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/analytics/me`, {
+        const res = await fetch(`${API}/api/analytics/me`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("velora_token")}` },
         });
         const data = await res.json();
@@ -843,7 +843,7 @@ export default function Trips() {
     if (!newDate) return showToast("Please select a travel date", "error");
     setCreating(true);
     try {
-      const res = await fetch(`${BASE_URL}/save-trip`, {
+      const res = await fetch(`${API}/api/save-trip`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("velora_token")}` },
         body: JSON.stringify({ city: newCity, date: newDate, places: ["default place"] }),
@@ -857,7 +857,7 @@ export default function Trips() {
 
   const handleDeleteTrip = async (id) => {
     try {
-      const res = await fetch(`${BASE_URL}/trip/${id}`, {
+      const res = await fetch(`${API}/api/trip/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${localStorage.getItem("velora_token")}` },
       });
@@ -870,7 +870,7 @@ export default function Trips() {
     if (!dupDate) return showToast("Please pick a new date", "error");
     setDupLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/trip/${dupModal.tripId}/duplicate`, {
+      const res = await fetch(`${API}/api/trip/${dupModal.tripId}/duplicate`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("velora_token")}` },
         body: JSON.stringify({ date: dupDate }),
@@ -901,8 +901,8 @@ export default function Trips() {
 
     // ── Fire both API calls in parallel ──
     const [placesRes, weatherRes] = await Promise.allSettled([
-      fetch(`${BASE_URL}/places/${encodeURIComponent(searchCity)}`),
-      fetch(`${BASE_URL}/weather/${encodeURIComponent(searchCity)}`),
+      fetch(`${API}/api/places/${encodeURIComponent(searchCity)}`),
+      fetch(`${API}/api/weather/${encodeURIComponent(searchCity)}`),
     ]);
 
     // ── Handle places response ──
@@ -974,7 +974,7 @@ export default function Trips() {
     const selectedPlaceObjects = placesData.filter(p => selectedPlaces.includes(p.name));
 
     try {
-      const res = await fetch(`${BASE_URL}/route/optimize`, {
+      const res = await fetch(`${API}/api/route/optimize`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ locations: selectedPlaceObjects }),
@@ -1004,7 +1004,7 @@ export default function Trips() {
     if (!tripDate) return showToast("Please set a trip date first", "error");
     setCreating(true);
     try {
-      const res = await fetch(`${BASE_URL}/save-trip`, {
+      const res = await fetch(`${API}/api/save-trip`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("velora_token")}` },
         body: JSON.stringify({ city: searchCity, date: tripDate, places: selectedPlaces }),
@@ -1359,7 +1359,7 @@ export default function Trips() {
                           onClick={() => togglePlaceSelect(place.name)}>
                           <img
                             src={place.photoRef
-                              ? `${BASE_URL}/photo?ref=${encodeURIComponent(place.photoRef)}`
+                              ? `${API}/api/photo?ref=${encodeURIComponent(place.photoRef)}`
                               : getCityImg(searchCity)}
                             alt={place.name}
                             className="t-place-img"

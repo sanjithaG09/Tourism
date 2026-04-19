@@ -736,13 +736,13 @@ export default function Profile() {
     if (newPw.length < 8)                   { setPwStatus({ type: "error", msg: "Password must be at least 8 characters." }); return; }
     setSavingPw(true);
 
-    const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+    const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
     const jwtToken = localStorage.getItem("velora_token");
 
     try {
       if (jwtToken) {
         // ── JWT user (registered via Velora email/password) ──
-        const res  = await fetch(`${BASE_URL}/change-password`, {
+        const res  = await fetch(`${API}/api/change-password`, {
           method:  "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${jwtToken}` },
           body:    JSON.stringify({ currentPassword: currentPw, newPassword: newPw }),

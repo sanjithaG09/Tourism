@@ -5,7 +5,7 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { getCityHero } from "./Explore";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 const Toast = ({ message, type, onClose }) => {
@@ -188,7 +188,7 @@ export default function MyTrips() {
     try {
       const params = new URLSearchParams();
       if (filterCity) params.set("city", filterCity);
-      const res  = await fetch(`${BASE_URL}/trips?${params}`, {
+      const res  = await fetch(`${API}/api/trips?${params}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -203,7 +203,7 @@ export default function MyTrips() {
     if (!confirmId) return;
     setDeleting(true);
     try {
-      const res = await fetch(`${BASE_URL}/trip/${confirmId}`, {
+      const res = await fetch(`${API}/api/trip/${confirmId}`, {
         method:  "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

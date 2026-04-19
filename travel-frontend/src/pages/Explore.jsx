@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // ── Weather condition → emoji ──────────────────────────────────────────────
 const WEATHER_EMOJI = {
@@ -409,8 +409,8 @@ export default function Explore() {
     setWeatherLoading(true);
 
     const [placesRes, weatherRes] = await Promise.allSettled([
-      fetch(`${BASE_URL}/places/${encodeURIComponent(cityName)}`),
-      fetch(`${BASE_URL}/current-weather/${encodeURIComponent(cityName)}`),
+      fetch(`${API}/api/places/${encodeURIComponent(cityName)}`),
+      fetch(`${API}/api/current-weather/${encodeURIComponent(cityName)}`),
     ]);
 
     // Places
@@ -474,12 +474,12 @@ export default function Explore() {
     if (endPoint)   body.endPoint   = endPoint;
 
     const [routeRes, weatherRes] = await Promise.allSettled([
-      fetch(`${BASE_URL}/route/optimize`, {
+      fetch(`${API}/api/route/optimize`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       }),
-      fetch(`${BASE_URL}/current-weather/${encodeURIComponent(city)}`),
+      fetch(`${API}/api/current-weather/${encodeURIComponent(city)}`),
     ]);
 
     let routeData = { route: selectedPlaces, details: null, summary: null };
@@ -733,7 +733,7 @@ export default function Explore() {
                             onClick={() => togglePlace(place.name)}>
                             {place.photoRef ? (
                               <img
-                                src={`${BASE_URL}/photo?ref=${encodeURIComponent(place.photoRef)}`}
+                                src={`${API}/api/photo?ref=${encodeURIComponent(place.photoRef)}`}
                                 alt={place.name}
                                 className="ex-place-img"
                                 onError={e => {

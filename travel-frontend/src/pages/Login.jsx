@@ -2,7 +2,7 @@ import VeloraLogo from "../components/VeloraLogo";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ export default function Login() {
 
     try {
       if (isForgot) {
-        const res  = await fetch(`${BASE_URL}/forgot-password`, {
+        const res  = await fetch(`${API}/api/forgot-password`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: form.email }),
@@ -74,7 +74,7 @@ export default function Login() {
         ? { name: form.name, email: form.email, password: form.password }
         : { email: form.email, password: form.password };
 
-      const res  = await fetch(`${BASE_URL}${endpoint}`, {
+      const res  = await fetch(`${API}/api${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -137,7 +137,7 @@ export default function Login() {
         : isSignup
         ? "/verify-signup-otp"
         : "/verify-login-otp";
-      const res  = await fetch(`${BASE_URL}${endpoint}`, {
+      const res  = await fetch(`${API}/api${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email, otp }),
@@ -186,7 +186,7 @@ export default function Login() {
     setLoading(true);
     setErrors({});
     try {
-      const res = await fetch(`${BASE_URL}/reset-password`, {
+      const res = await fetch(`${API}/api/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email, token: resetToken, newPassword }),
@@ -219,7 +219,7 @@ export default function Login() {
 
     try {
       const context = isForgot ? "forgot" : isSignup ? "signup" : "login";
-      const res  = await fetch(`${BASE_URL}/resend-otp`, {
+      const res  = await fetch(`${API}/api/resend-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email, context }),

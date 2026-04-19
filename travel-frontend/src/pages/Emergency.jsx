@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // ─── India national emergency numbers ──────────────────────────────────────
 const NATIONAL_NUMBERS = [
@@ -80,7 +80,7 @@ export default function Emergency() {
     if (!token) return;
 
     setFetchingServices(true);
-    fetch(`${BASE_URL}/sos/nearby?lat=${coords.lat}&lng=${coords.lng}`, {
+    fetch(`${API}/api/sos/nearby?lat=${coords.lat}&lng=${coords.lng}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(r => r.json())
@@ -110,7 +110,7 @@ export default function Emergency() {
     setSosState("sent");
     const token = localStorage.getItem("velora_token");
     try {
-      await fetch(`${BASE_URL}/sos/alert`, {
+      await fetch(`${API}/api/sos/alert`, {
         method:  "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body:    JSON.stringify({

@@ -5,7 +5,7 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { CurrentWeatherBlock, getCityHero } from "./Explore";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 const Toast = ({ message, type, onClose }) => {
@@ -273,7 +273,7 @@ export default function OptimizedRoute() {
     params.set("city", city);
     if (startPoint?.value) params.set("start", startPoint.value);
     if (endPoint?.value)   params.set("end",   endPoint.value);
-    fetch(`${BASE_URL}/maps/embed?${params}`)
+    fetch(`${API}/api/maps/embed?${params}`)
       .then(r => r.json())
       .then(d => { if (d.url) setMapUrl(d.url); })
       .catch(() => {})
@@ -284,7 +284,7 @@ export default function OptimizedRoute() {
     if (!token) { navigate("/login"); return; }
     setPageLoading(true);
     try {
-      const res  = await fetch(`${BASE_URL}/trip/${id}`, {
+      const res  = await fetch(`${API}/api/trip/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -310,7 +310,7 @@ export default function OptimizedRoute() {
           ? details.reduce((s, d) => s + (d.distToNext || 0), 0) / 1000
           : 0);
 
-      const res  = await fetch(`${BASE_URL}/save-trip`, {
+      const res  = await fetch(`${API}/api/save-trip`, {
         method:  "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body:    JSON.stringify({
