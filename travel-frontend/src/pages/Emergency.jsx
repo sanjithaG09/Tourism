@@ -427,7 +427,7 @@ export default function Emergency() {
         </div>
         <div className="e-nav-links">
           <span className="e-nav-link" onClick={() => navigate("/")}>Home</span>
-          <span className="e-nav-link" onClick={() => navigate("/trips")}>Trips</span>
+          <span className="e-nav-link" onClick={() => navigate("/my-trips")}>Trips</span>
           <span className="e-nav-link active">Emergency</span>
           <span className="e-nav-link" onClick={() => navigate("/analytics")}>Analytics</span>
         </div>

@@ -1,6 +1,5 @@
-const Trip         = require("../models/trip");
-const Notification = require("../models/Notification");
-const User         = require("../models/User");
+const Trip = require("../models/trip");
+const User = require("../models/User");
 const { getCurrentWeather } = require("../services/weatherApi");
 const { sendTripConfirmationEmail } = require("../services/emailService");
 
@@ -29,12 +28,6 @@ exports.saveTrip = async (req, res) => {
         });
 
         await trip.save();
-
-        await Notification.create({
-            userId:  req.userId,
-            type:    "trip_saved",
-            message: `Your trip to ${city} has been saved!`,
-        });
 
         // Send trip confirmation email (non-blocking)
         const user = await User.findById(req.userId).select("name email");

@@ -1,8 +1,10 @@
 const cron = require("node-cron");
 const User = require("../models/User");
 const Trip = require("../models/trip");
-const Notification = require("../models/Notification");
 const { sendTripReminderEmail } = require("../services/emailService");
+
+// tracks which trip+day combos we've emailed this process run (in-memory dedup)
+const sentToday = new Set();
 
 // ── Core reminder logic — exported so it can be triggered manually too ────────
 async function runReminderJob() {
@@ -10,6 +12,7 @@ async function runReminderJob() {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const todayKey = today.toISOString().split("T")[0];
 
     const reminderDays = [5, 3, 1];
     let emailsSent = 0;
@@ -24,28 +27,16 @@ async function runReminderJob() {
         const upcomingTrips = await Trip.find({ date: { $gte: start, $lte: end } });
 
         for (const trip of upcomingTrips) {
-            // Skip if already sent today
-            const notifType  = `trip_reminder_${daysLeft}d_${trip._id}`;
-            const alreadySent = await Notification.findOne({
-                userId: trip.userId,
-                type:   notifType,
-                createdAt: { $gte: new Date(today) },
-            });
-            if (alreadySent) continue;
+            const dedupeKey = `${todayKey}_${daysLeft}d_${trip._id}`;
+            if (sentToday.has(dedupeKey)) continue;
 
             const user = await User.findById(trip.userId).select("name email");
             if (!user) continue;
 
-            // Save in-app notification
-            await Notification.create({
-                userId:  trip.userId,
-                type:    notifType,
-                message: `Your trip to ${trip.city} is ${daysLeft === 1 ? "tomorrow" : `in ${daysLeft} days`}! Get ready.`,
-            });
-
             // Send reminder email
             try {
                 await sendTripReminderEmail(user.name, user.email, trip.city, trip.date, daysLeft);
+                sentToday.add(dedupeKey);
                 console.log(`[CRON] Reminder sent → ${user.email} | ${trip.city} | ${daysLeft}d away`);
                 emailsSent++;
             } catch (err) {

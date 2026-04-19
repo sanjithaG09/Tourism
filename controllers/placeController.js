@@ -19,7 +19,7 @@ exports.getPlaces = async (req, res) => {
     const { city } = req.params;
 
     console.log("CITY:", city);
-    console.log("GOOGLE KEY:", process.env.GOOGLE_MAPS_API_KEY);
+    console.log("GOOGLE KEY:", process.env.GOOGLE_API_KEY);
 
     try {
         const { city } = req.params;

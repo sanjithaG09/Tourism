@@ -31,8 +31,6 @@ const tripRoutes         = require("./routes/tripRoutes");
 const placeRoutes        = require("./routes/placeRoutes");
 const routeRoutes        = require("./routes/routeRoutes");
 const analyticsRoutes    = require("./routes/analyticRoutes");
-const reviewRoutes       = require("./routes/reviewRoutes");
-const notificationRoutes = require("./routes/notificationRoutes");
 const alertRoutes        = require("./routes/alertRoutes");
 const sosRoutes          = require("./routes/sosRoutes");
 
@@ -42,8 +40,6 @@ app.use("/api", authRoutes);
 app.use("/api", tripRoutes);
 app.use("/api", routeRoutes);
 app.use("/api", analyticsRoutes);
-app.use("/api", reviewRoutes);
-app.use("/api", notificationRoutes);
 app.use("/api", alertRoutes);
 app.use("/api", sosRoutes);
 

@@ -474,6 +474,7 @@ export default function MyTrips() {
                         </button>
                       </div>
                     </div>
+
                   </div>
                 );
               })}

@@ -403,11 +403,11 @@ VITE_API_URL=http://localhost:3000
 
 ## Team
 
-- **Shreya Kumari**
-- **E.V. Sai Chathurya**
 - **Gunuganti Sanjitha**
 - **A. Sai Poojitha**
+- **E.V. Sai Chathurya**
 - **P. Sindhu Priya**
+- **Shreya Kumari**
 
 ---
 

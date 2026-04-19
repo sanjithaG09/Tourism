@@ -286,9 +286,10 @@ const FontLink = () => (
       flex: 1; padding: 16px 0;
       border: none; outline: none; background: transparent;
       font-family: 'Sora', sans-serif;
-      font-size: 15px; font-weight: 500; color: #ffffff;
+      font-size: 15px; font-weight: 500; color: #111111;
+      caret-color: #111111;
     }
-    .search-input::placeholder { color: rgba(255,255,255,0.4); font-weight: 400; }
+    .search-input::placeholder { color: rgba(0,0,0,0.4); font-weight: 400; }
     .search-btn {
       padding: 11px 24px; margin: 6px;
       border-radius: 50px; border: none;

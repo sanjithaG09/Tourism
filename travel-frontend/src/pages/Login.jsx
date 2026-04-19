@@ -1,8 +1,6 @@
 import VeloraLogo from "../components/VeloraLogo";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
-import { sendPasswordResetEmail } from "firebase/auth";
 
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
@@ -282,6 +280,8 @@ export default function Login() {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
+
+
 
   const switchTab = (signup) => {
     setIsSignup(signup);
@@ -694,6 +694,7 @@ export default function Login() {
 
 .vl-resend-btn:not(:disabled) { color: #e8622a; }
 .vl-resend-btn:disabled { color: #9ca3af; cursor: default; }
+
       `}</style>
 
       <div className="vl-page">
@@ -965,6 +966,7 @@ export default function Login() {
                       ← Back to Login
                     </button>
                   )}
+
 
                 </div>
               </>
